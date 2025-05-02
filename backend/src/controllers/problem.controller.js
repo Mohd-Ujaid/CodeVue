@@ -1,0 +1,261 @@
+import { db } from "../libs/db.js"
+import { getJudge0LanguageId, pollBatchResults, submitBatch } from "../libs/judge0.lib.js";
+
+
+
+
+
+
+
+export const createProblem = async (req, res) => {
+
+    const {title, description, difficulty,tags,examples, constraints, testcases, codeSnippets, referenceSolutions} = req.body
+
+    console.log(req.user.role);
+
+
+    if(req.user.role !== "ADMIN") {
+        return res.status(403).json({
+            error : "You are not allowed to create a problem"
+        })
+    }
+
+    try {
+
+
+        for(const [language , solutionCode] of Object.entries(referenceSolutions) ) {
+
+            const languageId = getJudge0LanguageId(language);
+            // console.log(languageId);
+            if (languageId === null ) {
+
+                console.error("language id is null");
+
+                res.status(500).json({
+                    error:"language id is null"
+                })
+                
+            }
+
+            if(!languageId){
+                return res.status(400).json({
+                    error : `Language ${language} is not supported`
+                })
+            }
+
+
+            const submissions = testcases.map(({input , output}) => ({
+                language_id:languageId,
+                source_code:solutionCode,
+                stdin:input,
+                expected_output:output
+            }))
+
+            console.log("this is submission",submissions);
+
+            const submissionResults = await submitBatch(submissions)
+
+            console.log("submition results :",submissionResults);
+
+            if (submissionResults === null || submissionResults === undefined) {
+
+                console.error("submission is null or error");
+
+                return res.status(400).json({
+                    error: "submission is null or undefined"
+                })
+                
+            }
+
+ 
+            const tokens = submissionResults.map((res) => res.token);
+
+            console.log("this is token : ", tokens);
+
+            const results = await pollBatchResults(tokens);
+
+            const result = results[i]
+
+            console.log("Results......  ", result);
+            
+
+
+            for(let i =0 ; i < results.length ; i++) {
+                const result = results[i]
+
+                if (result.status.id !== 3) {
+
+                    return res.status(400).json({
+                        error:`testcase ${i+1} failed for language ${language}`
+                    })
+                    
+                }
+            }
+
+            // save the problem to the database
+
+            try {
+                const newProblem = await db.problem.create({
+                    data : {
+                        title, description, difficulty,tags,examples, constraints, testcases, codeSnippets, referenceSolutions,
+                        userId: req.user.id
+                    }
+                })
+    
+    
+                return res.status(201).json({
+                    sucess: true,
+                    message: "Message Created Successfully",
+                    problem: newProblem,
+                  });
+                
+            } catch (err) {
+
+                console.log("error while saving problem : ", err);
+
+                return res.status(400).json({
+                    message:"error while saving problem "
+                })
+                
+            }
+
+            
+
+
+
+
+
+        }
+        
+
+
+
+
+    } catch (err) {
+
+        console.log("error while creating problems: " , err);
+        return res.status(500).json({
+            message:"error while creating problem"
+
+        })
+        
+    }
+
+
+}
+
+
+
+
+
+
+export const getAllProblems = async (req, res) => {
+
+    try {
+
+        const problems = await db.problem.findMany()
+
+        if (!problems) {
+            return res.status(404).json({
+                error: "No problem found"
+              });
+            
+        }
+        return res.status(200).json({
+            sucess: true,
+            message: "Message Fetched Successfully",
+            problems
+        });
+        
+    } catch (err) {
+        console.log("error while fetching problems: " , err);
+        return res.status(500).json({
+            message:"error while fetching problem"
+
+        })
+        
+    }
+
+}
+
+
+
+ 
+export const getProblemById = async (req, res) => {
+
+    const {id} = req.params;
+
+    try {
+        const problem = await db.problem.findUnique({
+            where:{id}
+        })
+
+        if(!problem){
+            return res.status(404).json({error: "Problem not found . "})
+
+        }
+
+        return res.status(200).json({
+            sucess: true,
+            message: "Message Fetched Successfully",
+            problem
+        });
+
+
+
+    } catch (err) {
+
+        console.log("error while fetching problems by id: " , err);
+        return res.status(500).json({
+            error:"error while fetching problem by id"
+
+        })
+        
+    }
+
+
+
+}
+
+export const updateProblem = async (req, res) => {
+
+}
+
+export const deleteProblem = async (req, res) => {
+
+    const {id} = req.params;
+
+    try {
+        const problem = await db.problem.findUnique({where:{id}});
+
+    if(!problem){
+        return res.status(404).json({error : "Problem Not Found"})
+    }
+
+
+    await dispatchEvent.problem.delete({where:{id}})
+
+    res.status(200).json({
+        success:true,
+        message:"problem deleted successfully"
+    })
+
+    } catch (err) {
+        console.err("error while deleting problem", err);
+
+        return res.status(500).json({
+            error:"error while deleting thw problem"
+
+        })
+    }
+
+
+}
+
+export const getAllProblemSolvedByUser = async (req, res) => {
+
+    
+
+}
+
+
