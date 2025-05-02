@@ -1,5 +1,6 @@
 
 # Onlycode - DSA Problem Solving Platform
+---
 
 ##  About the Project
 
@@ -58,9 +59,9 @@ This is a **Onlycode - A Leetcode, CodeChief Inspired Platform** designed to hel
 
    ```bash
    git clone https://github.com/Aestheticsuraj234/chai-or-leetcode.git
-   cd backend
-   cd frontend
    ```
+   ```cd backend```
+   ```cd frontend```
 
 2. **Install Dependencies**
 
