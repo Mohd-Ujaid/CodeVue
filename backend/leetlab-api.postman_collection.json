@@ -1,100 +1,95 @@
 {
-	"info": {
-		"_postman_id": "4226603a-6acb-4235-aff2-84edccd077af",
-		"name": "project-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26765707"
-	},
-	"item": [
-		{
-			"name": "authentication",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Log in",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "logout",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "check",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "problems",
-			"item": [
-				{
-					"name": "Create Problem",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"submissions\":  [\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n  },\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n      \r\n  },\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n      \r\n  }\r\n]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/submissions/batch?base64_encoded=false",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"submissions",
-								"batch"
-							],
-							"query": [
-								{
-									"key": "base64_encoded",
-									"value": "false"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "execute code",
-			"item": [
-				{
-					"name": "execute code",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "4226603a-6acb-4235-aff2-84edccd077af",
+    "name": "project-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26765707"
+  },
+  "item": [
+    {
+      "name": "authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Log in",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "check",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "problems",
+      "item": [
+        {
+          "name": "Create Problem",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"submissions\":  [\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n  },\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n      \r\n  },\r\n  {\r\n    \"language_id\": 63,\r\n    \"source_code\": \"const fs = require('fs');\\n\" \r\n      \r\n  }\r\n]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/submissions/batch?base64_encoded=false",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["submissions", "batch"],
+              "query": [
+                {
+                  "key": "base64_encoded",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "execute code",
+      "item": [
+        {
+          "name": "execute code",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
