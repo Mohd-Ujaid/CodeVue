@@ -3,8 +3,9 @@
   "useTabs": false,
   "semi": true,
   "singleQuote": false,
-  "trailingComma": "all",
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false,
-  "arrowParens": "always"
+  "jsxSingleQuote": false,
+  "trailingComma": "es5",
+  "arrowParens": "avoid",
+  "bracketSpacing": false,
+  "printWidth": 80,
 }

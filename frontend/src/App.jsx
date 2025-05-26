@@ -1,0 +1,47 @@
+import React, { useEffect } from 'react'
+import {Routes , Route, Navigate} from "react-router-dom"
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
+import { Toaster } from 'react-hot-toast'
+import { useAuthStore } from './stores/useAuthStore'
+import { Loader } from 'lucide-react'
+
+
+function App() {
+
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth()
+  
+   
+  }, [checkAuth])
+  
+  if (isCheckingAuth && !authUser) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
+      </div>
+    );
+  }
+
+
+  return (
+    <div className='flex flex-col items-center justify-center'>
+
+      <Toaster />
+
+      <Routes>
+
+        <Route path='/' element ={authUser ? <HomePage /> : <LoginPage /> }  />
+
+        <Route path='/login' element= { !authUser ? <LoginPage /> : <Navigate to={"/"} /> } />
+        <Route path='/signup' element={ !authUser ? <SignUpPage /> : <Navigate to={"/"} /> } />
+      </Routes>
+
+    </div>
+  )
+}
+
+export default App
