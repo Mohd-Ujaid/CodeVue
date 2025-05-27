@@ -105,7 +105,7 @@ export const createProblem = async (req, res) => {
 
         return res.status(201).json({
           sucess: true,
-          message: "Message Created Successfully",
+          message: "Problem Created Successfully",
           problem: newProblem,
         });
       } catch (err) {
