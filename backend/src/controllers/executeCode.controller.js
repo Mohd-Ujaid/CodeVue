@@ -7,11 +7,16 @@ import {
 
 export const executeCode = async (req, res) => {
   try {
-    const { source_code, language_id, expected_outputs, problemId } = req.body;
+    const { source_code, language_id, expected_outputs, problemId , stdin} = req.body;
+    console.log("before");
+    console.log("body", req.body);
+    console.log("after");
 
     const userId = req.user.id;
+    console.log("userId", userId);
 
     // validate testcases
+    console.log("sdin" ,stdin);
 
     if (
       !Array.isArray(stdin) ||
@@ -100,6 +105,7 @@ export const executeCode = async (req, res) => {
       },
     });
 
+    console.log("submissin",submission);
     // if all passed == true mark probleem as solved in current user.
 
     if (allPassed) {
@@ -123,12 +129,11 @@ export const executeCode = async (req, res) => {
         const testCaseResults = detaildResults.map((result) => ({
           submissionId: submission.id,
           testCase: result.testCase,
-          passed: result,
-          passed,
+          passed: result.passed,
           stdout: result.stdout,
           expected: result.expected,
           stderr: result.stderr,
-          compileOutput: result.compileOutput,
+          compileOutput: result.compile_output,
           status: result.status,
           memory: result.memory,
           time: result.time,
@@ -138,14 +143,14 @@ export const executeCode = async (req, res) => {
           data: testCaseResults,
         });
 
-        const subbmissionWithTestCases = await db.submission.findUnique({
-          where: {
-            id: submission.id,
-          },
-          include: {
-            testcases: true,
-          },
-        });
+        const submissionWithTestCases = await db.submission.findUnique({
+      where: {
+        id: submission.id,
+      },
+      include: {
+        testCases: true,
+      },
+    });
       } catch (err) {
         console.error("error in saving subbmission: ", err);
       }
@@ -154,7 +159,7 @@ export const executeCode = async (req, res) => {
     res.status(200).json({
       message: "code executed successfully",
       success: true,
-      submission: subbmissionWithTestCases,
+      submission: submissionWithTestCases,
     });
   } catch (err) {
     console.error("error in execution", err);
