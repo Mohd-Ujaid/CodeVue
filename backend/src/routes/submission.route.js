@@ -1,5 +1,5 @@
 import express from "express";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import {authMiddleware} from "../middleware/auth.middleware.js";
 import {
   getAllSubmission,
   getAllTheSubmissionForProblem,
@@ -13,13 +13,13 @@ submissionRoutes.get("/get-all-submissions", authMiddleware, getAllSubmission);
 submissionRoutes.get(
   "/get-submission/:problemId",
   authMiddleware,
-  getSubmissionForProblem,
+  getSubmissionForProblem
 );
 
 submissionRoutes.get(
   "/get-submission-count/:problemId",
   authMiddleware,
-  getAllTheSubmissionForProblem,
+  getAllTheSubmissionForProblem
 );
 
 export default submissionRoutes;

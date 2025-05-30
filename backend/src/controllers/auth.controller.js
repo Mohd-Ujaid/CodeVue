@@ -1,16 +1,16 @@
 import bcrypt from "bcryptjs";
-import { db } from "../libs/db.js";
-import { UserRole } from "../generated/prisma/index.js";
+import {db} from "../libs/db.js";
+import {UserRole} from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   if (!req.body) {
-    return res.status(400).json({ error: "Request body is missing" });
+    return res.status(400).json({error: "Request body is missing"});
   }
 
   console.log("request body: ", req.body);
 
-  const { email, password, name } = req.body;
+  const {email, password, name} = req.body;
 
   try {
     const existingUser = await db.user.findUnique({
@@ -36,7 +36,7 @@ export const register = async (req, res) => {
       },
     });
 
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({id: newUser.id}, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -68,7 +68,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const {email, password} = req.body;
 
   try {
     const user = await db.user.findUnique({
@@ -91,7 +91,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -152,7 +152,7 @@ export const check = async (req, res) => {
     });
   } catch (error) {
     console.error("Error checking user: ", error);
-    res.status(500).json({ message: "Error checking user" });
+    res.status(500).json({message: "Error checking user"});
 
     console.log(error);
   }

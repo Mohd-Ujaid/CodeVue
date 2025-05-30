@@ -1,19 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { X, Plus, Loader } from 'lucide-react';
-import { usePlaylistStore } from '../stores/usePlaylistStore';
+import React, {useEffect, useState} from "react";
+import {X, Plus, Loader} from "lucide-react";
+import {usePlaylistStore} from "../stores/usePlaylistStore";
 
-
-const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
-  const { playlists, getAllPlaylists, addProblemToPlaylist, isLoading } = usePlaylistStore();
-  const [selectedPlaylist, setSelectedPlaylist] = useState('');
+const AddToPlaylistModal = ({isOpen, onClose, problemId}) => {
+  const {playlists, getAllPlaylists, addProblemToPlaylist, isLoading} =
+    usePlaylistStore();
+  const [selectedPlaylist, setSelectedPlaylist] = useState("");
+  console.log("playlists in AddToPlaylistModal:", playlists);
+  console.log(
+    "----->",
+    isLoading,
+    " --> ",
+    selectedPlaylist,
+    " ----> ",
+    problemId,
+    "----> ",
+    isOpen
+  );
+  // getAllPlaylists()
+  // console.log("Playlists after fetching in AddToPlaylistModal:", playlists);
 
   useEffect(() => {
-    if (isOpen) {
-      getAllPlaylists();
+    // if (isOpen) {
+    if (true) {
+      getAllPlaylists()
+        .then(data => {
+          debugger;
+          // playlists = data;
+          console.log("Fetched playlists data :", data);
+          console.log("Fetched playlists:", playlists);
+        })
+        .catch(err => {
+          console.error("Error fetching playlists:", err);
+        });
+
+      console.log("Playlists after fetching:", playlists);
     }
   }, [isOpen]);
 
-  const handleSubmit = async (e) => {
+  console.log("Playlists in AddToPlaylistModal:", playlists);
+
+  const handleSubmit = async e => {
     e.preventDefault();
     if (!selectedPlaylist) return;
 
@@ -41,11 +68,11 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
             <select
               className="select select-bordered w-full"
               value={selectedPlaylist}
-              onChange={(e) => setSelectedPlaylist(e.target.value)}
+              onChange={e => setSelectedPlaylist(e.target.value)}
               disabled={isLoading}
             >
               <option value="">Select a playlist</option>
-              {playlists.map((playlist) => (
+              {playlists.map(playlist => (
                 <option key={playlist.id} value={playlist.id}>
                   {playlist.name}
                 </option>
@@ -57,12 +84,16 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
             <button type="button" onClick={onClose} className="btn btn-ghost">
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
               disabled={!selectedPlaylist || isLoading}
             >
-              {isLoading ? <Loader className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              {isLoading ? (
+                <Loader className="w-4 h-4 animate-spin" />
+              ) : (
+                <Plus className="w-4 h-4" />
+              )}
               Add to Playlist
             </button>
           </div>

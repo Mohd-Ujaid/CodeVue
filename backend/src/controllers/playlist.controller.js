@@ -1,11 +1,16 @@
-import { db } from "../libs/db.js";
+import {db} from "../libs/db.js";
 
 export const createPlaylist = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    debugger;
+    const {name, description} = req.body;
+    console.log("name in createPlaylist-> ", name);
+    console.log("description in createPlaylist-> ", description);
+    // console.log("req.user in createPlaylist-> ", req.user.id);
 
     const userId = req.user.id;
-    const playlist = await db.playlist.create({
+    console.log("userId in createPlaylist-> ", userId);
+    const playlist = await db.Playlist.create({
       data: {
         name,
         description,
@@ -20,17 +25,18 @@ export const createPlaylist = async (req, res) => {
     });
   } catch (err) {
     console.error("error creating successfully", err);
-    res.status(500).json({ err: "failed to create playlist" });
+    res.status(500).json({err: "failed to create playlist"});
   }
 };
 
 export const getAllListDetails = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
+    console.log("userId in all-> ", req.user.id);
     const playlist = await db.playlist.findMany({
       where: {
-        userId,
+        userId: req.user.id,
       },
       include: {
         problems: {
@@ -40,40 +46,41 @@ export const getAllListDetails = async (req, res) => {
         },
       },
     });
+    console.log("playlist-> ", playlist);
 
     res.status(200).json({
       success: true,
       message: "playlist fetched successfully",
-      playlist,
+      playlist: playlist,
     });
   } catch (err) {
     console.error("error fetching successfully", err);
-    res.status(500).json({ err: "failed to fetched playlist" });
+    res.status(500).json({err: "failed to fetched playlist"});
   }
 };
 
 export const getPlayListDetails = async (req, res) => {
   try {
-    const { playlistId } = req.params;
+    const {playlistId} = req.params;
 
-    const userId = req.user.id;
+    console.log("playlistId in playlist-> ", playlistId);
+
+    // const userId = req.user.id;
 
     const playlist = await db.playlist.findUnique({
-      where: {
-        id: playlistId,
-        userId,
-      },
-      include: {
+      where: {id: playlistId, userId: req.user.id},
+      includes: {
         problems: {
-          include: {
+          includes: {
             problem: true,
           },
         },
       },
     });
+    console.log("playlist-> ", playlist);
 
     if (!playlist) {
-      return res.status(404).json({ error: "playlist not fount" });
+      return res.status(404).json({error: "playlist not fount"});
     }
 
     res.status(200).json({
@@ -83,41 +90,65 @@ export const getPlayListDetails = async (req, res) => {
     });
   } catch (err) {
     console.error("error fetching successfully", err);
-    res.status(500).json({ err: "failed to fetched playlist" });
+    res.status(500).json({err: "failed to fetched playlist"});
   }
 };
 
 export const addProblemToPlaylist = async (req, res) => {
-  const { playlistId } = req.params;
-  const { problemIds } = req.body;
+  debugger;
+  const {playlistId} = req.params;
+  const {problemIds} = req.body;
+  // console.log("req.body in addProblemToPlaylist-> ", req.body);
+
+  console.log("playlistId in addProblemToPlaylist-> ", playlistId);
+  console.log(
+    "problemIds in addProblemToPlaylist-> ",
+    problemIds.toLocaleString()
+  );
 
   try {
     if (!Array.isArray(problemIds) || problemIds.length === 0) {
-      return res.status(400).json({ error: "Invalid or missing problemId" });
+      return res.status(400).json({error: "Invalid or missing problemIds"});
     }
 
-    //  create records from each problems in the playlist
+    console.log(
+      "log .....",
+      problemIds.map(problemId => ({
+        playListId: playlistId,
+        problemId: problemId.toLocaleString(),
+      }))
+    );
+
+    console.log("playlistId in addProblemToPlaylist-> ", playlistId);
+
+    console.log("before");
+    console.log("problem id in addProblemToPlaylist-> ", problemIds);
+    console.log("after");
+    //  create records from each problem in the playlist
 
     const problemInPlaylist = await db.problemInPlaylist.createMany({
-      data: problemIds.map((problemId) => {
-        playlistId, problemId;
-      }),
+      data: problemIds.map(problemId => ({
+        playListId: playlistId,
+        problemId: problemId.toString(), // Ensure problemId is a string
+      })),
     });
+    // console.log("-> ", data);
+    console.log("problemInPlaylist-> ", problemInPlaylist);
 
     res.status(201).json({
       success: true,
       message: "problems added to playlist successfully",
-      problemInPlaylist,
+      // problemInPlaylist,
     });
   } catch (err) {
     console.error("error adding in playlist", err);
-    res.status(500).json({ err: "failed to adding in playlist" });
+    res.status(500).json({err: "failed to adding in playlist"});
   }
 };
 
 export const deletePlaylist = async (req, res) => {
   try {
-    const { playlistId } = req.params;
+    const {playlistId} = req.params;
 
     const userId = req.user.id;
 
@@ -135,22 +166,22 @@ export const deletePlaylist = async (req, res) => {
     });
   } catch (err) {
     console.error("error in deleting playlist", err);
-    res.status(500).json({ err: "failed to delete playlist" });
+    res.status(500).json({err: "failed to delete playlist"});
   }
 };
 
 export const removeProblemFromPlaylist = async (req, res) => {
   try {
-    const { playlistId } = req.params;
-    const { problemIds } = req.body;
+    const {playlistId} = req.params;
+    const {problemIds} = req.body;
 
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
     const deletedproblem = await db.problemInPlaylist.deleteMany({
       where: {
         playlistId,
         problemId: {
-          in: problemIds,
+          id: problemIds,
         },
       },
     });
@@ -162,6 +193,6 @@ export const removeProblemFromPlaylist = async (req, res) => {
     });
   } catch (err) {
     console.error("error removing problem from playlist", err);
-    res.status(500).json({ err: "failed removing problem from playlist" });
+    res.status(500).json({err: "failed removing problem from playlist"});
   }
 };

@@ -1,4 +1,4 @@
-import { db } from "../libs/db.js";
+import {db} from "../libs/db.js";
 
 export const getAllSubmission = async (req, res) => {
   try {
@@ -12,12 +12,12 @@ export const getAllSubmission = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Submimssion fetched successfully",
+      message: "Submission fetched successfully",
       submissions,
     });
   } catch (err) {
     console.error("Fetch submission error : ", err);
-    res.status(500).json({ err: "failed to fetch submissions" });
+    res.status(500).json({err: "failed to fetch submissions"});
   }
 };
 
@@ -26,7 +26,7 @@ export const getSubmissionForProblem = async (req, res) => {
     const userId = req.user.id;
     const problemId = req.params.problemId;
 
-    const submissions = await db.submissions.findMany({
+    const submissions = await db.submission.findMany({
       where: {
         userId: userId,
         problemId: problemId,
@@ -35,12 +35,12 @@ export const getSubmissionForProblem = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Submimssion fetched successfully",
+      message: "Submission fetched successfully",
       submissions,
     });
   } catch (err) {
     console.error("Fetch submission error : ", err);
-    res.status(500).json({ err: "failed to fetch submissions" });
+    res.status(500).json({err: "failed to fetch submissions"});
   }
 };
 
@@ -48,19 +48,27 @@ export const getAllTheSubmissionForProblem = async (req, res) => {
   try {
     const problemId = req.params.problemId;
 
-    const submission = await db.submissions.findMany({
+    const submission = await db.submission.count({
       where: {
         problemId: problemId,
+      },
+    });
+    const submissions = await db.submission.count({
+      where: {
+        problemId: problemId,
+
+        status: "Accepted",
       },
     });
 
     res.status(200).json({
       success: true,
-      message: "Submimssion fetched successfully",
+      message: "Submission fetched successfully",
       count: submission,
+      sub: submissions,
     });
   } catch (err) {
     console.error("Fetch submission error : ", err);
-    res.status(500).json({ err: "failed to fetch submissions" });
+    res.status(500).json({err: "failed to fetch submissions"});
   }
 };

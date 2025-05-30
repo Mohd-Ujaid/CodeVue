@@ -1,64 +1,64 @@
-import { create } from "zustand";
-import { axiosInstance } from "../libs/axios";
+import {create} from "zustand";
+import {axiosInstance} from "../libs/axios";
 import toast from "react-hot-toast";
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create(set => ({
   authUser: null,
   isSigninUp: false,
   isLoggingIn: false,
   isCheckingAuth: false,
 
   checkAuth: async () => {
-    set({ isCheckingAuth: true });
+    set({isCheckingAuth: true});
     try {
       const res = await axiosInstance.get("/auth/check");
       console.log("checkauth response", res.data);
 
-      set({ authUser: res.data.user });
+      set({authUser: res.data.user});
     } catch (error) {
       console.log("❌ Error checking auth:", error);
-      set({ authUser: null });
+      set({authUser: null});
     } finally {
-      set({ isCheckingAuth: false });
+      set({isCheckingAuth: false});
     }
   },
 
-  signup: async (data) => {
-    set({ isSigninUp: true });
+  signup: async data => {
+    set({isSigninUp: true});
     try {
       const res = await axiosInstance.post("/auth/register", data);
 
-      set({ authUser: res.data.user });
+      set({authUser: res.data.user});
 
       toast.success(res.data.message);
     } catch (error) {
       console.log("Error signing up", error);
       toast.error("Error signing up");
     } finally {
-      set({ isSigninUp: false });
+      set({isSigninUp: false});
     }
   },
 
-  login: async (data) => {
-    set({ isLoggingIn: true });
+  login: async data => {
+    set({isLoggingIn: true});
     try {
       const res = await axiosInstance.post("/auth/login", data);
 
-      set({ authUser: res.data.user });
+      set({authUser: res.data.user});
 
       toast.success(res.data.message);
     } catch (error) {
       console.log("Error logging in", error);
       toast.error("Error logging in");
     } finally {
-      set({ isLoggingIn: false });
+      set({isLoggingIn: false});
     }
   },
 
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
-      set({ authUser: null });
+      set({authUser: null});
 
       toast.success("Logout successful");
     } catch (error) {

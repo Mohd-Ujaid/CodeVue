@@ -1,6 +1,6 @@
 /* This code snippet is setting up a database connection using Prisma Client in a Node.js environment.*/
 
-import { PrismaClient } from "../generated/prisma/index.js";
+import {PrismaClient} from "../generated/prisma/index.js";
 
 const globalForPrisma = globalThis;
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { authMiddleware, checkAdmin } from "../middleware/auth.middleware.js";
+import {authMiddleware, checkAdmin} from "../middleware/auth.middleware.js";
 import {
   createProblem,
   deleteProblem,
@@ -15,7 +15,7 @@ problemRoutes.post(
   "/create-problem",
   authMiddleware,
   checkAdmin,
-  createProblem,
+  createProblem
 );
 // problemRoutes.post("/create-problem" , authMiddleware , createProblem)
 
@@ -27,20 +27,20 @@ problemRoutes.put(
   "/update-problem/:id",
   authMiddleware,
   checkAdmin,
-  updateProblem,
+  updateProblem
 );
 
 problemRoutes.delete(
   "/delete-problem/:id",
   authMiddleware,
   checkAdmin,
-  deleteProblem,
+  deleteProblem
 );
 
 problemRoutes.get(
   "/get-solved-problems",
   authMiddleware,
-  getAllProblemSolvedByUser,
+  getAllProblemSolvedByUser
 );
 
 export default problemRoutes;

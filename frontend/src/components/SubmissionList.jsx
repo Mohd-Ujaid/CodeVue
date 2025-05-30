@@ -7,9 +7,9 @@ import {
   Calendar,
 } from "lucide-react";
 
-const SubmissionsList = ({ submissions, isLoading }) => {
+const SubmissionsList = ({submissions, isLoading}) => {
   // Helper function to safely parse JSON strings
-  const safeParse = (data) => {
+  const safeParse = data => {
     try {
       return JSON.parse(data);
     } catch (error) {
@@ -19,8 +19,8 @@ const SubmissionsList = ({ submissions, isLoading }) => {
   };
 
   // Helper function to calculate average memory usage
-  const calculateAverageMemory = (memoryData) => {
-    const memoryArray = safeParse(memoryData).map((m) =>
+  const calculateAverageMemory = memoryData => {
+    const memoryArray = safeParse(memoryData).map(m =>
       parseFloat(m.split(" ")[0])
     );
     if (memoryArray.length === 0) return 0;
@@ -30,10 +30,8 @@ const SubmissionsList = ({ submissions, isLoading }) => {
   };
 
   // Helper function to calculate average runtime
-  const calculateAverageTime = (timeData) => {
-    const timeArray = safeParse(timeData).map((t) =>
-      parseFloat(t.split(" ")[0])
-    );
+  const calculateAverageTime = timeData => {
+    const timeArray = safeParse(timeData).map(t => parseFloat(t.split(" ")[0]));
     if (timeArray.length === 0) return 0;
     return timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
   };
@@ -58,7 +56,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 
   return (
     <div className="space-y-4">
-      {submissions.map((submission) => {
+      {submissions.map(submission => {
         const avgMemory = calculateAverageMemory(submission.memory);
         const avgTime = calculateAverageTime(submission.time);
 
@@ -82,7 +80,9 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                       <span className="font-semibold">{submission.status}</span>
                     </div>
                   )}
-                  <div className="badge badge-neutral">{submission.language}</div>
+                  <div className="badge badge-neutral">
+                    {submission.language}
+                  </div>
                 </div>
 
                 {/* Right Section: Runtime, Memory, and Date */}

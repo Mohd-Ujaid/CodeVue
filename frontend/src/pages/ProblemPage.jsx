@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Editor from "@monaco-editor/react";
 import {
   Play,
@@ -9,24 +9,24 @@ import {
   Share2,
   Clock,
   ChevronRight,
-  BookOpen,
+  // BookOpen,
   Terminal,
   Code2,
   Users,
   ThumbsUp,
   Home,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import useProblemStore from "../stores/useProblemStore";
-import { getLanguageId } from "../libs/lang";
-import { useSubmissionStore } from "../stores/useSubmissionStore";
-import { useExecutionStore } from "../stores/useExecuteStore";
+import {getLanguageId} from "../libs/lang";
+import {useSubmissionStore} from "../stores/useSubmissionStore";
+import {useExecutionStore} from "../stores/useExecuteStore";
 import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
 
 const ProblemPage = () => {
-  const { id } = useParams();
-  const { getProblemById, problem, isProblemLoading } = useProblemStore();
+  const {id} = useParams();
+  const {getProblemById, problem, isProblemLoading} = useProblemStore();
 
   const {
     submission: submissions,
@@ -34,6 +34,7 @@ const ProblemPage = () => {
     getSubmissionForProblem,
     getSubmissionCountForProblem,
     submissionCount,
+    correctSubmissions,
   } = useSubmissionStore();
 
   const [code, setCode] = useState("");
@@ -42,7 +43,7 @@ const ProblemPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestCases] = useState([]);
 
-  const { executeCode, submission, isExecuting } = useExecutionStore();
+  const {executeCode, submission, isExecuting} = useExecutionStore();
 
   useEffect(() => {
     getProblemById(id);
@@ -55,7 +56,7 @@ const ProblemPage = () => {
         problem.codeSnippets?.[selectedLanguage] || submission?.sourceCode || ""
       );
       setTestCases(
-        problem.testcases?.map((tc) => ({
+        problem.testcases?.map(tc => ({
           input: tc.input,
           output: tc.output,
         })) || []
@@ -69,20 +70,18 @@ const ProblemPage = () => {
     }
   }, [activeTab, id]);
 
-  console.log("submission", submissions);
-
-  const handleLanguageChange = (e) => {
+  const handleLanguageChange = e => {
     const lang = e.target.value;
     setSelectedLanguage(lang);
     setCode(problem.codeSnippets?.[lang] || "");
   };
 
-  const handleRunCode = (e) => {
+  const handleRunCode = e => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
-      const stdin = problem.testcases.map((tc) => tc.input);
-      const expected_outputs = problem.testcases.map((tc) => tc.output);
+      const stdin = problem.testcases.map(tc => tc.input);
+      const expected_outputs = problem.testcases.map(tc => tc.output);
       executeCode(code, language_id, stdin, expected_outputs, id);
     } catch (error) {
       console.log("Error executing code", error);
@@ -100,6 +99,8 @@ const ProblemPage = () => {
     );
   }
 
+  const successRate = (correctSubmissions / submissionCount) * 100;
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "description":
@@ -110,41 +111,39 @@ const ProblemPage = () => {
             {problem.examples && (
               <>
                 <h3 className="text-xl font-bold mb-4">Examples:</h3>
-                {Object.entries(problem.examples).map(
-                  ([lang, example], idx) => (
-                    <div
-                      key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
-                    >
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Input:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.input}
-                        </span>
+                {Object.entries(problem.examples).map(([lang, example]) => (
+                  <div
+                    key={lang}
+                    className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+                  >
+                    <div className="mb-4">
+                      <div className="text-indigo-300 mb-2 text-base font-semibold">
+                        Input:
                       </div>
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
-                          Output:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-                          {example.output}
-                        </span>
-                      </div>
-                      {example.explanation && (
-                        <div>
-                          <div className="text-emerald-300 mb-2 text-base font-semibold">
-                            Explanation:
-                          </div>
-                          <p className="text-base-content/70 text-lg font-sem">
-                            {example.explanation}
-                          </p>
-                        </div>
-                      )}
+                      <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        {example.input}
+                      </span>
                     </div>
-                  )
-                )}
+                    <div className="mb-4">
+                      <div className="text-indigo-300 mb-2 text-base font-semibold">
+                        Output:
+                      </div>
+                      <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        {example.output}
+                      </span>
+                    </div>
+                    {example.explanation && (
+                      <div>
+                        <div className="text-emerald-300 mb-2 text-base font-semibold">
+                          Explanation:
+                        </div>
+                        <p className="text-base-content/70 text-lg font-sem">
+                          {example.explanation}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </>
             )}
 
@@ -219,7 +218,7 @@ const ProblemPage = () => {
               <span>{submissionCount} Submissions</span>
               <span className="text-base-content/30">•</span>
               <ThumbsUp className="w-4 h-4" />
-              <span>95% Success Rate</span>
+              <span>{successRate.toFixed(1)}% Success Rate</span>
             </div>
           </div>
         </div>
@@ -240,7 +239,7 @@ const ProblemPage = () => {
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
-            {Object.keys(problem.codeSnippets || {}).map((lang) => (
+            {Object.keys(problem.codeSnippets || {}).map(lang => (
               <option key={lang} value={lang}>
                 {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>
@@ -311,9 +310,9 @@ const ProblemPage = () => {
                   language={selectedLanguage.toLowerCase()}
                   theme="vs-dark"
                   value={code}
-                  onChange={(value) => setCode(value || "")}
+                  onChange={value => setCode(value || "")}
                   options={{
-                    minimap: { enabled: false },
+                    minimap: {enabled: false},
                     fontSize: 20,
                     lineNumbers: "on",
                     roundedSelection: false,

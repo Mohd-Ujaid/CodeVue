@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getJudge0LanguageId = (language) => {
+export const getJudge0LanguageId = language => {
   const languageMap = {
     PYTHON: 71,
     JAVA: 62,
@@ -10,7 +10,7 @@ export const getJudge0LanguageId = (language) => {
   return languageMap[language.toUpperCase()] || null;
 };
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // export const pollBatchResults = async (tokens) => {
 //     try {
@@ -53,26 +53,26 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const pollBatchResults = async (
   tokens,
   maxAttempts = 30,
-  intervalMs = 2000,
+  intervalMs = 2000
 ) => {
   try {
     let attempts = 0;
 
     while (attempts < maxAttempts) {
-      const { data } = await axios.get(
+      const {data} = await axios.get(
         `${process.env.JUDGE0_API_URL}/submissions/batch`,
         {
           params: {
             tokens: tokens.join(","),
             base64_encoded: false,
           },
-        },
+        }
       );
 
       const results = data.submissions;
       console.log("Polling results: ", results);
 
-      const isAllDone = results.every((r) => r.status.id > 2);
+      const isAllDone = results.every(r => r.status.id > 2);
 
       if (isAllDone) {
         return results;
@@ -91,29 +91,28 @@ export const pollBatchResults = async (
 
 //new code
 
-export const submitBatch = async (submissions) => {
+export const submitBatch = async submissions => {
   try {
-    const { data } = await axios.post(
+    const {data} = await axios.post(
       `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`,
       {
         submissions,
-      },
+      }
     );
 
     console.log("submission results ", data);
     return data;
   } catch (err) {
-    console.error("erorr in submit batch : ", err);
+    console.error("error in submit batch : ", err);
   }
 };
 
 export function getLanguageName(languageId) {
-  const LANGUGE_NAME = {
-    74: "TypeScript",
+  const LANGUAGE_NAME = {
     63: "Javascript",
     71: "Python",
     62: "Java",
   };
 
-  return LANGUGE_NAME[languageId] || "unknown";
+  return LANGUAGE_NAME[languageId] || "unknown";
 }

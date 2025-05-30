@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from "react";
 
-import useProblemStore from '../stores/useProblemStore';
-import { Loader } from 'lucide-react';
-import ProblemTable from '../components/ProblemTable';
+import useProblemStore from "../stores/useProblemStore";
+import {Loader} from "lucide-react";
+import ProblemTable from "../components/ProblemTable";
 
 const HomePage = () => {
-   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+  const {getAllProblems, problems, isProblemsLoading} = useProblemStore();
 
   useEffect(() => {
     getAllProblems();
   }, [getAllProblems]);
 
-  if(isProblemsLoading){
+  if (isProblemsLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-          <Loader className="size-10 animate-spin"/>
+        <Loader className="size-10 animate-spin" />
       </div>
-    )
+    );
   }
 
   return (
@@ -27,20 +27,19 @@ const HomePage = () => {
       </h1>
 
       <p className="mt-4 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10">
-        A Platform which helps you to prepare for coding
-        interviews and helps you to improve your coding skills by solving coding
-        problems
+        A Platform which helps you to prepare for coding interviews and helps
+        you to improve your coding skills by solving coding problems
       </p>
 
-      {
-        problems.length > 0 ? <ProblemTable problems={problems}/> : (
-            <p className="mt-10 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 border border-primary px-4 py-2 rounded-md border-dashed">
+      {problems.length > 0 ? (
+        <ProblemTable problems={problems} />
+      ) : (
+        <p className="mt-10 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 border border-primary px-4 py-2 rounded-md border-dashed">
           No problems found
         </p>
-        )
-      }
+      )}
     </div>
   );
-}
+};
 
-export default HomePage
+export default HomePage;

@@ -14,12 +14,16 @@ dotenv.config();
 const app = express();
 
 app.use(
-    cors({
-      origin: "http://localhost:5173",
-      credentials: true,
-    })
-  );
-
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175",
+    ],
+    credentials: true,
+  })
+);
+debugger;
 app.use(express.json());
 app.use(cookieParser());
 

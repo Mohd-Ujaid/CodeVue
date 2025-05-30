@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { db } from "../libs/db.js";
+import {db} from "../libs/db.js";
 
 export const authMiddleware = async (req, res, next) => {
   try {
@@ -44,7 +44,7 @@ export const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Error authentication user: ", error);
-    res.status(500).json({ message: "Error authentication user" });
+    res.status(500).json({message: "Error authentication user"});
   }
 };
 

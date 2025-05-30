@@ -1,19 +1,27 @@
-import React from 'react';
-import { CheckCircle2, XCircle, Clock, MemoryStick as Memory } from 'lucide-react';
+import React from "react";
+import {
+  CheckCircle2,
+  XCircle,
+  Clock,
+  MemoryStick as Memory,
+} from "lucide-react";
 
-const SubmissionResults = ({ submission }) => {
-  // Parse stringified arrays
-  const memoryArr = JSON.parse(submission.memory || '[]');
-  const timeArr = JSON.parse(submission.time || '[]');
+const SubmissionResults = ({submission}) => {
+  // Parse stringifies arrays
+  console.log("Submission Results:", submission);
+  const memoryArr = JSON.parse(submission.memory || "[]");
+  const timeArr = JSON.parse(submission.time || "[]");
 
   // Calculate averages
-  const avgMemory = memoryArr
-    .map(m => parseFloat(m)) // remove ' KB' using parseFloat
-    .reduce((a, b) => a + b, 0) / memoryArr.length;
+  const avgMemory =
+    memoryArr
+      .map(m => parseFloat(m)) // remove ' KB ' using parseFloat
+      .reduce((a, b) => a + b, 0) / memoryArr.length;
 
-  const avgTime = timeArr
-    .map(t => parseFloat(t)) // remove ' s' using parseFloat
-    .reduce((a, b) => a + b, 0) / timeArr.length;
+  const avgTime =
+    timeArr
+      .map(t => parseFloat(t)) // remove ' s ' using parseFloat
+      .reduce((a, b) => a + b, 0) / timeArr.length;
 
   const passedTests = submission.testCases.filter(tc => tc.passed).length;
   const totalTests = submission.testCases.length;
@@ -26,9 +34,11 @@ const SubmissionResults = ({ submission }) => {
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm">Status</h3>
-            <div className={`text-lg font-bold ${
-              submission.status === 'Accepted' ? 'text-success' : 'text-error'
-            }`}>
+            <div
+              className={`text-lg font-bold ${
+                submission.status === "Accepted" ? "text-success" : "text-error"
+              }`}
+            >
               {submission.status}
             </div>
           </div>
@@ -37,9 +47,7 @@ const SubmissionResults = ({ submission }) => {
         <div className="card bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm">Success Rate</h3>
-            <div className="text-lg font-bold">
-              {successRate.toFixed(1)}%
-            </div>
+            <div className="text-lg font-bold">{successRate.toFixed(1)}%</div>
           </div>
         </div>
 
@@ -49,9 +57,7 @@ const SubmissionResults = ({ submission }) => {
               <Clock className="w-4 h-4" />
               Avg. Runtime
             </h3>
-            <div className="text-lg font-bold">
-              {avgTime.toFixed(3)} s
-            </div>
+            <div className="text-lg font-bold">{avgTime.toFixed(3)} s</div>
           </div>
         </div>
 
@@ -61,9 +67,7 @@ const SubmissionResults = ({ submission }) => {
               <Memory className="w-4 h-4" />
               Avg. Memory
             </h3>
-            <div className="text-lg font-bold">
-              {avgMemory.toFixed(0)} KB
-            </div>
+            <div className="text-lg font-bold">{avgMemory.toFixed(0)} KB</div>
           </div>
         </div>
       </div>
@@ -84,7 +88,7 @@ const SubmissionResults = ({ submission }) => {
                 </tr>
               </thead>
               <tbody>
-                {submission.testCases.map((testCase) => (
+                {submission.testCases.map(testCase => (
                   <tr key={testCase.id}>
                     <td>
                       {testCase.passed ? (
@@ -100,7 +104,7 @@ const SubmissionResults = ({ submission }) => {
                       )}
                     </td>
                     <td className="font-mono">{testCase.expected}</td>
-                    <td className="font-mono">{testCase.stdout || 'null'}</td>
+                    <td className="font-mono">{testCase.stdout || "null"}</td>
                     <td>{testCase.memory}</td>
                     <td>{testCase.time}</td>
                   </tr>

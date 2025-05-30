@@ -1,30 +1,30 @@
-import React, { useState, useMemo } from "react";
-import { useAuthStore } from "../stores/useAuthStore";
-import { Link } from "react-router-dom";
-import { Bookmark, PencilIcon, Trash, TrashIcon, Plus } from "lucide-react";
-import { useActions } from "../stores/useAction";
+import React, {useState, useMemo} from "react";
+import {useAuthStore} from "../stores/useAuthStore";
+import {Link} from "react-router-dom";
+import {Bookmark, PencilIcon, Trash, TrashIcon, Plus} from "lucide-react";
+import {useActions} from "../stores/useAction";
 import AddToPlaylistModal from "./AddToPlaylist";
 import CreatePlaylistModal from "./CreatePlaylistModal";
-import { usePlaylistStore } from "../stores/usePlaylistStore";
+import {usePlaylistStore} from "../stores/usePlaylistStore";
 
-
-const ProblemTable = ({ problems }) => {
-  const { authUser } = useAuthStore();
-  const { onDeleteProblem } = useActions();
-  const { createPlaylist } = usePlaylistStore();
+const ProblemTable = ({problems}) => {
+  const {authUser} = useAuthStore();
+  const {onDeleteProblem} = useActions();
+  const {createPlaylist} = usePlaylistStore();
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] = useState(false);
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+    useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
 
   // Extract all unique tags from problems
   const allTags = useMemo(() => {
     if (!Array.isArray(problems)) return [];
     const tagsSet = new Set();
-    problems.forEach((p) => p.tags?.forEach((t) => tagsSet.add(t)));
+    problems.forEach(p => p.tags?.forEach(t => tagsSet.add(t)));
     return Array.from(tagsSet);
   }, [problems]);
 
@@ -34,13 +34,13 @@ const ProblemTable = ({ problems }) => {
   // Filter problems based on search, difficulty, and tags
   const filteredProblems = useMemo(() => {
     return (problems || [])
-      .filter((problem) =>
+      .filter(problem =>
         problem.title.toLowerCase().includes(search.toLowerCase())
       )
-      .filter((problem) =>
+      .filter(problem =>
         difficulty === "ALL" ? true : problem.difficulty === difficulty
       )
-      .filter((problem) =>
+      .filter(problem =>
         selectedTag === "ALL" ? true : problem.tags?.includes(selectedTag)
       );
   }, [problems, search, difficulty, selectedTag]);
@@ -55,17 +55,19 @@ const ProblemTable = ({ problems }) => {
     );
   }, [filteredProblems, currentPage]);
 
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     onDeleteProblem(id);
   };
 
-  const handleCreatePlaylist = async (data) => {
+  const handleCreatePlaylist = async data => {
     await createPlaylist(data);
+    console.log("Playlist created:", data);
   };
 
-  const handleAddToPlaylist = (problemId) => {
+  const handleAddToPlaylist = problemId => {
     setSelectedProblemId(problemId);
     setIsAddToPlaylistModalOpen(true);
+    console.log("Adding problem to playlist:", problemId);
   };
 
   return (
@@ -89,15 +91,15 @@ const ProblemTable = ({ problems }) => {
           placeholder="Search by title"
           className="input input-bordered w-full md:w-1/3 bg-base-200"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
         <select
           className="select select-bordered bg-base-200"
           value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
+          onChange={e => setDifficulty(e.target.value)}
         >
           <option value="ALL">All Difficulties</option>
-          {difficulties.map((diff) => (
+          {difficulties.map(diff => (
             <option key={diff} value={diff}>
               {diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase()}
             </option>
@@ -106,10 +108,10 @@ const ProblemTable = ({ problems }) => {
         <select
           className="select select-bordered bg-base-200"
           value={selectedTag}
-          onChange={(e) => setSelectedTag(e.target.value)}
+          onChange={e => setSelectedTag(e.target.value)}
         >
           <option value="ALL">All Tags</option>
-          {allTags.map((tag) => (
+          {allTags.map(tag => (
             <option key={tag} value={tag}>
               {tag}
             </option>
@@ -131,9 +133,9 @@ const ProblemTable = ({ problems }) => {
           </thead>
           <tbody>
             {paginatedProblems.length > 0 ? (
-              paginatedProblems.map((problem) => {
+              paginatedProblems.map(problem => {
                 const isSolved = problem.solvedBy.some(
-                  (user) => user.userId === authUser?.id
+                  user => user.userId === authUser?.id
                 );
                 return (
                   <tr key={problem.id}>
@@ -146,7 +148,10 @@ const ProblemTable = ({ problems }) => {
                       />
                     </td>
                     <td>
-                      <Link to={`/problem/${problem.id}`} className="font-semibold hover:underline">
+                      <Link
+                        to={`/problem/${problem.id}`}
+                        className="font-semibold hover:underline"
+                      >
                         {problem.title}
                       </Link>
                     </td>
@@ -168,8 +173,8 @@ const ProblemTable = ({ problems }) => {
                           problem.difficulty === "EASY"
                             ? "badge-success"
                             : problem.difficulty === "MEDIUM"
-                            ? "badge-warning"
-                            : "badge-error"
+                              ? "badge-warning"
+                              : "badge-error"
                         }`}
                       >
                         {problem.difficulty}
@@ -195,7 +200,9 @@ const ProblemTable = ({ problems }) => {
                           onClick={() => handleAddToPlaylist(problem.id)}
                         >
                           <Bookmark className="w-4 h-4" />
-                          <span className="hidden sm:inline">Save to Playlist</span>
+                          <span className="hidden sm:inline">
+                            Save to Playlist
+                          </span>
                         </button>
                       </div>
                     </td>
@@ -218,7 +225,7 @@ const ProblemTable = ({ problems }) => {
         <button
           className="btn btn-sm"
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
+          onClick={() => setCurrentPage(prev => prev - 1)}
         >
           Prev
         </button>
@@ -228,7 +235,7 @@ const ProblemTable = ({ problems }) => {
         <button
           className="btn btn-sm"
           disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
+          onClick={() => setCurrentPage(prev => prev + 1)}
         >
           Next
         </button>
@@ -240,7 +247,7 @@ const ProblemTable = ({ problems }) => {
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreatePlaylist}
       />
-      
+
       <AddToPlaylistModal
         isOpen={isAddToPlaylistModalOpen}
         onClose={() => setIsAddToPlaylistModalOpen(false)}
