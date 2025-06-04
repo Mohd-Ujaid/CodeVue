@@ -8,11 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User roles for permissions and functionalities
 enum UserRole {
   ADMIN
   USER
 }
 
+// Difficulty levels for problems and questions
 enum Difficulty {
   EASY
   MEDIUM
@@ -29,10 +31,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  problems      Problem[]
-  submission    Submission[]
-  problemSolved ProblemSolved[]
-  playlists     Playlist[]
+  problems          Problem[]
+  submission        Submission[]
+  problemSolved     ProblemSolved[]
+  playlists         Playlist[]
+  DiscussionComment DiscussionComment[]
 }
 
 model Problem {
@@ -67,9 +70,10 @@ model Problem {
 // }
 
 model Submission {
-  id            String  @id @default(uuid())
+  id            String     @id @default(uuid())
   userId        String
   problemId     String
+  difficulty    Difficulty
   sourceCode    Json
   language      String
   stdin         String?
@@ -151,3 +155,290 @@ model ProblemInPlaylist {
 
   @@unique([playListId, problemId])
 }
+
+model DiscussionComment {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  userId    String
+  problemId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+//=================================================================
+
+// Generator configuration for Prisma Client
+
+// generator client {
+//   provider = "prisma-client-js"
+//   output   = "../src/generated/prisma"
+// }
+//
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+//
+// // Enum for user roles to enforce role-based access control
+// enum UserRole {
+//   ADMIN // Admin users with elevated privileges
+//   USER // Regular users (candidates)
+// }
+//
+// // Enum for problem difficulty levels
+// enum Difficulty {
+//   EASY // Easy level problems
+//   MEDIUM // Medium level problems
+//   HARD // Hard level problems
+// }
+//
+// // Enum for different types of interviews
+// enum InterviewType {
+//   FULL_STACK // Full Stack Developer interview
+//   MACHINE_LEARNING // Machine Learning Engineer interview
+//   DATA_SCIENCE // Data Scientist interview
+//   BACKEND // Backend Engineer interview
+//   DEVOPS // DevOps Engineer interview
+//   OTHER // Other types of interviews
+// }
+//
+// // User model representing candidates and admins
+// model User {
+//   id                String   @id @default(uuid()) // Unique identifier for each user
+//   name              String? // Optional name of the user
+//   email             String   @unique // Unique email for user authentication
+//   image             String? // Optional profile image URL
+//   role              UserRole @default(USER) // Default role is USER
+//   password          String // Hashed password for authentication
+//   verified          Boolean  @default(false) // Indicates if the user's email is verified
+//   verificationToken String? // Token for email verification
+//   createdAt         DateTime @default(now()) // Timestamp for when the user was created
+//   updatedAt         DateTime @updatedAt // Timestamp for when the user was last updated
+//
+//   // Relationships
+//   problems      Problem[]       @relation("User CreatedProblems") // Problems created by the user
+//   submissions   Submission[] // Submissions made by the user
+//   problemSolved ProblemSolved[] // Problems solved by the user
+//   playlists     Playlist[] // Playlists created by the user
+//   interviews    Interview[] // Interviews participated in by the user
+//   feedbacks     Feedback[] // Feedback received by the user
+//   activities    Activity[] // User activities for tracking
+//
+//   // Index for quick email lookups
+//   @@index([email]) // Index on email for faster queries
+// }
+//
+// // Problem model representing coding problems/questions
+// model Problem {
+//   id          String     @id @default(uuid()) // Unique identifier for each problem
+//   title       String // Title of the problem
+//   description String // Detailed description of the problem
+//   difficulty  Difficulty // Difficulty level of the problem
+//   tags        String[]   @default([]) // Tags for categorization (e.g., ["arrays", "dynamic-programming"])
+//   userId      String // ID of the user who created the problem
+//   examples    Json // JSON object for input/output examples
+//   constraints String // Constraints for the problem
+//   hints       String? // Optional hints for solving the problem
+//   editorial   String? // Optional editorial or explanation for the problem
+//
+//   testcases          Json // JSON array of test cases for the problem
+//   codeSnippets       Json // Example starter code for different languages
+//   referenceSolutions Json // Reference solutions for the problem
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the problem was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the problem was last updated
+//
+//   // Relationships
+//   user        User                @relation("User CreatedProblems", fields: [userId], references: [id], onDelete: Cascade) // Creator of the problem
+//   submissions Submission[] // Submissions made for this problem
+//   solvedBy    ProblemSolved[] // Users who have solved this problem
+//   playlists   ProblemInPlaylist[] // Problems included in playlists
+//   interviews  InterviewProblem[] // Problems included in interviews
+//   // @@fulltext([title, description, hints, editorial]) // Full-text index for search optimization
+//
+//   // Indexes for performance
+//   @@index([userId]) // Index on userId for faster queries
+// }
+//
+// // Submission model representing user submissions for problems
+// model Submission {
+//   id            String  @id @default(uuid()) // Unique identifier for each submission
+//   userId        String // ID of the user who made the submission
+//   problemId     String // ID of the problem being submitted
+//   sourceCode    Json // Source code submitted, stored as JSON for flexibility
+//   language      String // Programming language used for the submission
+//   stdin         String? // Standard input for the submission (if applicable)
+//   stdout        String? // Standard output from the submission
+//   stderr        String? // Standard error from the submission
+//   compileOutput String? // Compilation output (if applicable)
+//   status        String // Status of the submission (e.g., "Accepted", "Wrong Answer")
+//   memory        String? // Memory usage of the submission
+//   time          String? // Time taken for execution
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the submission was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the submission was last updated
+//
+//   // Relationships
+//   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade) // User who made the submission
+//   problem         Problem          @relation(fields: [problemId], references: [id], onDelete: Cascade) // Problem being submitted
+//   testCaseResults TestCaseResult[] // Results of individual test cases for this submission
+//
+//   // Indexes for performance
+//   @@index([userId]) // Index on userId for faster queries
+//   @@index([problemId]) // Index on problemId for faster queries
+// }
+//
+// // TestCaseResult model representing results of individual test cases in a submission
+// model TestCaseResult {
+//   id            String  @id @default(uuid()) // Unique identifier for each test case result
+//   submissionId  String // ID of the submission this result belongs to
+//   testCase      Int // Index of the test case in the submission
+//   passed        Boolean // Indicates if the test case passed
+//   stdout        String? // Standard output from the test case
+//   expected      String // Expected output for the test case
+//   stderr        String? // Standard error from the test case
+//   compileOutput String? // Compilation output (if applicable)
+//   status        String // Status of the test case (e.g., "Passed", "Failed")
+//   memory        String? // Memory usage for the test case
+//   time          String? // Time taken for execution of the test case
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the test case result was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the test case result was last updated
+//
+//   // Relationships
+//   submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade) // Submission this result belongs to
+//
+//   // Index for performance
+//   @@index([submissionId]) // Index on submissionId for faster queries
+// }
+//
+// // ProblemSolved model tracking which problems a user has solved
+// model ProblemSolved {
+//   id        String @id @default(uuid()) // Unique identifier for each solved problem record
+//   userId    String // ID of the user who solved the problem
+//   problemId String // ID of the problem that was solved
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the problem was solved
+//   updatedAt DateTime @updatedAt // Timestamp for when the record was last updated
+//
+//   // Relationships
+//   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade) // User who solved the problem
+//   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade) // Problem that was solved
+//
+//   // Unique constraint to prevent duplicate entries
+//   @@unique([userId, problemId]) // Ensure a user can only solve a problem once
+//   @@index([userId]) // Index on userId for faster queries
+//   @@index([problemId]) // Index on problemId for faster queries
+// }
+//
+// // Playlist model for grouping problems
+// model Playlist {
+//   id          String  @id @default(uuid()) // Unique identifier for each playlist
+//   name        String // Name of the playlist
+//   description String? // Optional description of the playlist
+//   userId      String // ID of the user who created the playlist
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the playlist was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the playlist was last updated
+//
+//   // Relationships
+//   problems ProblemInPlaylist[] // Problems included in this playlist
+//   user     User                @relation(fields: [userId], references: [id], onDelete: Cascade) // User who created the playlist
+//
+//   // Unique constraint to ensure playlist names are unique per user
+//   @@unique([name, userId]) // Ensure a user cannot have two playlists with the same name
+//   @@index([userId]) // Index on userId for faster queries
+// }
+//
+// // Join table for many-to-many relationship between playlists and problems
+// model ProblemInPlaylist {
+//   id         String @id @default(uuid()) // Unique identifier for each record
+//   playlistId String // ID of the playlist
+//   problemId  String // ID of the problem
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the record was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the record was last updated
+//
+//   // Relationships
+//   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade) // Playlist this problem belongs to
+//   problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade) // Problem included in the playlist
+//
+//   // Unique constraint to prevent duplicate entries
+//   @@unique([playlistId, problemId]) // Ensure a problem can only be in a playlist once
+//   @@index([playlistId]) // Index on playlistId for faster queries
+//   @@index([problemId]) // Index on problemId for faster queries
+// }
+//
+// // Interview model representing interview sessions
+// model Interview {
+//   id            String        @id @default(uuid()) // Unique identifier for each interview
+//   userId        String // ID of the user participating in the interview
+//   interviewType InterviewType // Type of interview being conducted
+//   startedAt     DateTime      @default(now()) // Timestamp for when the interview started
+//   endedAt       DateTime? // Optional timestamp for when the interview ended
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the interview was created
+//   updatedAt DateTime @updatedAt // Timestamp for when the interview was last updated
+//
+//   // Relationships
+//   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade) // User participating in the interview
+//   questions InterviewProblem[] // Problems included in this interview
+//   feedback  Feedback? // Feedback for the interview
+//
+//   // Index for performance
+//   @@index([userId]) // Index on userId for faster queries
+// }
+//
+// // Join table for many-to-many relationship between interviews and problems
+// model InterviewProblem {
+//   id          String @id @default(uuid()) // Unique identifier for each record
+//   interviewId String // ID of the interview
+//   problemId   String // ID of the problem
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the record was created
+//
+//   // Relationships
+//   interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade) // Interview this problem belongs to
+//   problem   Problem   @relation(fields: [problemId], references: [id], onDelete: Cascade) // Problem included in the interview
+//
+//   // Unique constraint to prevent duplicate entries
+//   @@unique([interviewId, problemId]) // Ensure a problem can only be included in an interview once
+//   @@index([interviewId]) // Index on interviewId for faster queries
+//   @@index([problemId]) // Index on problemId for faster queries
+// }
+//
+// // Feedback model for interview feedback
+// model Feedback {
+//   id          String  @id @default(uuid()) // Unique identifier for each feedback record
+//   interviewId String  @unique // ID of the interview this feedback is for
+//   userId      String // ID of the user who received the feedback
+//   rating      Int // Rating for the interview (1 to 5 stars)
+//   comments    String? // Optional comments for the feedback
+//
+//   createdAt DateTime @default(now()) // Timestamp for when the feedback was created
+//
+//   // Relationships
+//   interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade) // Interview this feedback is for
+//   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade) // User who received the feedback
+//
+//   // Index for performance
+//   @@index([userId]) // Index on userId for faster queries
+// }
+//
+// // Activity model for tracking user activities
+// model Activity {
+//   id        String   @id @default(uuid()) // Unique identifier for each activity record
+//   userId    String // ID of the user who performed the activity
+//   type      String // Type of activity (e.g., "submission", "interview_started")
+//   detail    String? // Optional details about the activity
+//   timestamp DateTime @default(now()) // Timestamp for when the activity occurred
+//
+//   // Relationships
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade) // User who performed the activity
+//
+//   // Index for performance
+//   @@index([userId]) // Index on userId for faster queries
+//   @@index([type]) // Index on type for faster queries
+// }

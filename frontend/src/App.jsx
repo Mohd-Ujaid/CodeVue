@@ -1,15 +1,21 @@
 import React, {useEffect} from "react";
 import {Routes, Route, Navigate} from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
+import HomePage from "./pages/Home/HomePage.jsx";
+import LoginPage from "./pages/Authentication/LoginPage.jsx";
+import SignUpPage from "./pages/Authentication/SignUpPage.jsx";
 import {Toaster} from "react-hot-toast";
 import {useAuthStore} from "./stores/useAuthStore";
 import {Loader} from "lucide-react";
 import Layout from "./layout/Layout";
-import AdminRoute from "./components/AdminRoute";
-import AddProblem from "./pages/AddProblem";
-import ProblemPage from "./pages/ProblemPage";
+import AddProblem from "./pages/Problem/AddProblem.jsx";
+import ProblemPage from "./pages/Problem/ProblemPage.jsx";
+import ProblemsList from "./pages/Problem/ProblemsList.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import AdminPage from "./pages/Admin/AdminPage.jsx";
+import DashboardPage from "./pages/Dashboard/DashboardPage.jsx";
+import PlaylistPage from "./pages/Playlist/PlaylistPage.jsx";
+import ViewPlaylistPage from "./pages/Playlist/ViewPlaylistPage.jsx";
+import PageNotFound from "./pages/404/PageNotFound.jsx";
 
 function App() {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
@@ -27,15 +33,53 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div>
       <Toaster />
 
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route
-            index
-            element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+            path="/"
+            element={!authUser ? <HomePage /> : <Navigate to={"/dashboard"} />}
           />
+
+          <Route
+            path="/add-problem"
+            element={authUser ? <AddProblem /> : <Navigate to="/" />}
+          />
+
+          <Route
+            path="/dashboard"
+            element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
+          />
+          <Route
+            path="/problems"
+            element={authUser ? <ProblemsList /> : <LoginPage />}
+          />
+
+          <Route
+            path="/profile"
+            element={authUser ? <Profile /> : <LoginPage />}
+          />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/admin"
+            element={authUser ? <AdminPage /> : <LoginPage />}
+          />
+          <Route
+            path="/problem/:id"
+            element={authUser ? <ProblemPage /> : <LoginPage />}
+          />
+          <Route
+            path="/playlists"
+            element={authUser ? <PlaylistPage /> : <LoginPage />}
+          />
+          <Route
+            path="/playlists/:id"
+            element={authUser ? <ViewPlaylistPage /> : <LoginPage />}
+          />
+
+          <Route path="*" element={<PageNotFound />} />
         </Route>
 
         <Route
@@ -46,18 +90,6 @@ function App() {
           path="/signup"
           element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
         />
-
-        <Route
-          path="/problem/:id"
-          element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
-        />
-
-        <Route element={<AdminRoute />}>
-          <Route
-            path="/add-problem"
-            element={authUser ? <AddProblem /> : <Navigate to="/" />}
-          />
-        </Route>
       </Routes>
     </div>
   );

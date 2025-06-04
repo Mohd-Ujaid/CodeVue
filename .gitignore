@@ -8,3 +8,6 @@ build
 # Ignore specific file types
 *.min.js
 *.test.js
+# Ignore logs from the code editor
+.vscode/
+.idea/

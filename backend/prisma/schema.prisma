@@ -8,11 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User roles for permissions and functionalities
 enum UserRole {
   ADMIN
   USER
 }
 
+// Difficulty levels for problems and questions
 enum Difficulty {
   EASY
   MEDIUM
@@ -29,10 +31,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  problems      Problem[]
-  submission    Submission[]
-  problemSolved ProblemSolved[]
-  playlists     Playlist[]
+  problems          Problem[]
+  submission        Submission[]
+  problemSolved     ProblemSolved[]
+  playlists         Playlist[]
+  DiscussionComment DiscussionComment[]
 }
 
 model Problem {
@@ -67,9 +70,10 @@ model Problem {
 // }
 
 model Submission {
-  id            String  @id @default(uuid())
+  id            String     @id @default(uuid())
   userId        String
   problemId     String
+  difficulty    Difficulty
   sourceCode    Json
   language      String
   stdin         String?
@@ -150,4 +154,15 @@ model ProblemInPlaylist {
   problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([playListId, problemId])
+}
+
+model DiscussionComment {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  userId    String
+  problemId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }

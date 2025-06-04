@@ -10,6 +10,7 @@ export const useExecutionStore = create(set => ({
   executeCode: async (
     source_code,
     language_id,
+    problemDifficulty,
     stdin,
     expected_outputs,
     problemId
@@ -19,7 +20,14 @@ export const useExecutionStore = create(set => ({
 
       const res = await axiosInstance.post(
         "http://localhost:8080/api/v1/execute-code",
-        {source_code, language_id, stdin, expected_outputs, problemId}
+        {
+          source_code,
+          language_id,
+          problemDifficulty,
+          stdin,
+          expected_outputs,
+          problemId,
+        }
       );
 
       if (res && res.data) {

@@ -1,2 +1,362 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+  /* Base colors */
+  /*--background: red; !* Dark Blue *!*/
+  --background: #181726; /* Dark Blue */
+  --foreground: #f0f8ff; /* Off White */
+  /*--foreground: #f5f7ff; !* Off White *!*/
+  --card: #1d1c30; /* Card Blue */
+  --card-foreground: #f0f8ff; /* Alice Blue (#F0F8FF)*/
+  /*--card-foreground: #f5f7ff; !* Off White *!*/
+  --popover: #181726; /* Dark Blue */
+  --popover-foreground: #f0f8ff; /* Off White */
+  /*--popover-foreground: #f5f7ff; !* Off White *!*/
+
+  /* Primary colors */
+  --primary: #2979ff; /* Blue */
+  --primary-light: #5c99ff; /* Light Blue */
+  --primary-dark: #0059cc; /* Dark Blue */
+  --primary-foreground: #f5f7ff; /* Off White */
+
+  /* Secondary colors */
+  --secondary: #242938; /* Dark Gray Blue */
+  --secondary-foreground: #f5f7ff; /* Off White */
+
+  /* Accent colors */
+  --accent: #5a78ff; /* Purple Blue */
+  --accent-light: #8599ff; /* Light Purple Blue */
+  --accent-dark: #2f57cc; /* Dark Purple Blue */
+  --accent-foreground: #f5f7ff; /* Off White */
+
+  /* Muted colors */
+  --muted: #242938; /* Dark Gray Blue */
+  --muted-foreground: #8f97b0; /* Muted Gray */
+
+  /* Semantic colors */
+  --success: #22c55e; /* Green */
+  --success-foreground: #f5f7ff; /* Off White */
+  --warning: #ffba26; /* Yellow */
+  --warning-foreground: #f5f7ff; /* Off White */
+  --destructive: #ff4757; /* Red */
+  --destructive-foreground: #f5f7ff; /* Off White */
+  --info: #2979ff; /* Blue */
+  --info-foreground: #f5f7ff; /* Off White */
+
+  /* UI element colors */
+  --border: #242938; /* Dark Gray Blue */
+  --input: #242938; /* Dark Gray Blue */
+  --ring: #2979ff; /* Blue */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light {
+  /* Base colors */
+  --background: #f0f8ff; /* Alice Blue */
+  /*--background: #ffffff; !* White *!*/
+  --foreground: #181726; /* Dark Blue */
+  --card: #f0f8ff; /* Alice Blue */
+  /*--card: #ffffff; !* White *!*/
+  --card-foreground: #181726; /* Dark Blue */
+  --popover: #f0f8ff; /* Alice Blue */
+  /*--popover: #ffffff; !* White *!*/
+  --popover-foreground: #181726; /* Dark Blue */
+
+  /* Primary colors */
+  --primary: #3b7bff; /* Blue */
+  /*--primary: #3b7bff; !* Blue *!*/
+  --primary-light: #6e9bff; /* Light Blue */
+  --primary-dark: #085bcc; /* Dark Blue */
+  --primary-foreground: #f0f8ff; /* Off White */
+  /*--primary-foreground: #f5f7ff; !* Off White *!*/
+
+  /* Secondary colors */
+  --secondary: #f1f4fa; /* Light Gray Blue */
+  --secondary-foreground: #181726; /* Dark Blue */
+
+  /* Accent colors */
+  --accent: #7866ff; /* Purple */
+  --accent-light: #ab86ff; /* Light Purple */
+  --accent-dark: #4546cc; /* Dark Purple */
+  --accent-foreground: #f5f7ff; /* Off White */
+
+  /* Muted colors */
+  --muted: #f1f4fa; /* Light Gray Blue */
+  --muted-foreground: #788299; /* Muted Gray */
+
+  /* Semantic colors */
+  --success: #5adc90; /* Green */
+  --success-foreground: #f5f7ff; /* Off White */
+  --warning: #ffba26; /* Yellow */
+  --warning-foreground: #f5f7ff; /* Off White */
+  --destructive: #ff4757; /* Red */
+  --destructive-foreground: #f5f7ff; /* Off White */
+  --info: #3b7bff; /* Blue */
+  --info-foreground: #f5f7ff; /* Off White */
+
+  /* UI element colors */
+  --border: #e6e9f2; /* Light Gray Blue */
+  --input: #e6e9f2; /* Light Gray Blue */
+  --ring: #3b7bff; /* Blue */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.delay-100 {
+  animation-delay: 1s;
+}
+
+.delay-200 {
+  animation-delay: 2s;
+}
+
+.delay-300 {
+  animation-delay: 3s;
+}
+
+.delay-500 {
+  animation-delay: 5s;
+}
+
+.delay-700 {
+  animation-delay: 7s;
+}
+
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-700 {
+  animation-delay: 0.7s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Typography System */
+.text-display {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.text-h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.text-h2 {
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.text-h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.text-h4 {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.text-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.text-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--primary), var(--accent));
+}
+
+/* Base reset that won't interfere with Tailwind */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/*Add this block to your global CSS (e.g., index.css) or use Tailwind's arbitrary styles if supported:*/
+
+.navbar-link-anim {
+  position: relative;
+  transition:
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.navbar-link-anim::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.navbar-link-anim:hover,
+.navbar-link-anim:focus-visible {
+  color: var(--primary);
+  transform: translateY(-2px) scale(1.07) rotate(-1deg);
+  box-shadow:
+    0 2px 16px 0 rgba(0, 0, 0, 0.1),
+    0 0 8px 0 var(--primary);
+}
+.navbar-link-anim:hover::after,
+.navbar-link-anim:focus-visible::after {
+  transform: scaleX(1);
+}
+.navbar-glow {
+  box-shadow: 0 0 0 0 var(--primary);
+  transition: box-shadow 0.3s;
+}
+.navbar-glow:hover,
+.navbar-glow:focus-visible {
+  box-shadow:
+    0 0 16px 2px var(--primary),
+    0 2px 16px 0 rgba(0, 0, 0, 0.1);
+}
+@keyframes navbar-bounce {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.08) rotate(-2deg);
+  }
+  60% {
+    transform: scale(0.98) rotate(1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.navbar-bounce:hover {
+  animation: navbar-bounce 0.4s;
+}

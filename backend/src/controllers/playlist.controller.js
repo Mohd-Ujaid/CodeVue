@@ -34,7 +34,7 @@ export const getAllListDetails = async (req, res) => {
     // const userId = req.user.id;
 
     console.log("userId in all-> ", req.user.id);
-    const playlist = await db.playlist.findMany({
+    const playlist = await db.Playlist.findMany({
       where: {
         userId: req.user.id,
       },
@@ -63,15 +63,17 @@ export const getPlayListDetails = async (req, res) => {
   try {
     const {playlistId} = req.params;
 
+    console.log("req.params in playlist-> ", req.params);
+
     console.log("playlistId in playlist-> ", playlistId);
 
     // const userId = req.user.id;
 
     const playlist = await db.playlist.findUnique({
       where: {id: playlistId, userId: req.user.id},
-      includes: {
+      include: {
         problems: {
-          includes: {
+          include: {
             problem: true,
           },
         },
