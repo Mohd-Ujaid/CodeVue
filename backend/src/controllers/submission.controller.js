@@ -4,9 +4,17 @@ export const getAllSubmission = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const submissions = await db.submissions.findMany({
-      where: {
-        userId: userId,
+    const submissions = await db.submission.findMany({
+      // where: {
+      //   userId: userId,
+      // },
+      include: {
+        user: {
+          select: {
+            name: true, // include only the name
+            // Add email or id if needed
+          },
+        },
       },
     });
 

@@ -294,20 +294,21 @@ export const deleteProblem = async (req, res) => {
 
 export const getAllProblemSolvedByUser = async (req, res) => {
   const userId = req.user.id;
+  console.log("userId in getAllProblemSolvedByUser: ", userId);
 
   try {
     const problems = await db.problem.findMany({
       where: {
         solvedBy: {
           some: {
-            userId,
+            userId: userId,
           },
         },
-        include: {
-          solvedBy: {
-            where: {
-              userId,
-            },
+      },
+      include: {
+        solvedBy: {
+          where: {
+            userId: userId,
           },
         },
       },

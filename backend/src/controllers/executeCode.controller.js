@@ -7,9 +7,18 @@ import {
 
 export const executeCode = async (req, res) => {
   try {
-    const {source_code, language_id, expected_outputs, problemId, stdin} =
-      req.body;
+    const {
+      source_code,
+      language_id,
+      problemDifficulty,
+      expected_outputs,
+      problemId,
+      stdin,
+    } = req.body;
     console.log("before");
+    console.log("================================");
+    console.log("difficulty", problemDifficulty);
+    console.log("================================");
     console.log("body", req.body);
     console.log("after");
 
@@ -34,6 +43,7 @@ export const executeCode = async (req, res) => {
 
     const submissions = stdin.map(input => ({
       language_id,
+      problemDifficulty,
       source_code,
       stdin: input,
       // base64_encoded: false,
@@ -51,7 +61,7 @@ export const executeCode = async (req, res) => {
 
     const results = await pollBatchResults(tokens);
 
-    console.log("result :", results);
+    console.log("result =============>>> :", results);
 
     // analyze test cases
 
@@ -70,6 +80,7 @@ export const executeCode = async (req, res) => {
         testcases: i + 1,
         passed,
         stdout,
+        difficulty: problemDifficulty,
         expected: expected_output,
         stderr: result.stderr || null,
         compile_output: result.compile_output || null,
@@ -88,6 +99,7 @@ export const executeCode = async (req, res) => {
       data: {
         userId,
         problemId,
+        difficulty: problemDifficulty,
         sourceCode: {code: source_code},
         language: getLanguageName(language_id),
         stdin: stdin.join("\n"),
