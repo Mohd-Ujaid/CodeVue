@@ -11,7 +11,7 @@
     "backend": "nodemon src/index.js",
     "start": "nodemon src/index.js",
     "dev": "vercel dev",
-    "build": "nodemon src/index.js",
+    "build": "prisma generate && next build",
     "debugg": "node --inspect src/index.js",
     "format": "npx prettier --write ."
   },
