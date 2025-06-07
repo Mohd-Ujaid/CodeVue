@@ -51,9 +51,9 @@ app.use("/api/v1/interview", interviewRoutes);
 app.use("/api/v1/stats", userStatsRoute);
 // app.use("/api/v1/Admin", userStatsRoute)
 
-// app.listen(process.env.PORT, () => {
-//   console.log(`server is running on port no.  ${process.env.PORT}`);
-// });
+app.listen(process.env.PORT, () => {
+  console.log(`server is running on port no.  ${process.env.PORT}`);
+});
 
 // export const handler = serverless(app);
 export default serverless(app);
