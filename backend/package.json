@@ -1,9 +1,9 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/index.js",
   "engines": {
-    "node":"24.X",
+    "node":"24.x"
   },
   "scripts": {
     "backend": "nodemon src/index.js",

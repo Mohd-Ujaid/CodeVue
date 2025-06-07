@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["clientExtensions"] // Needed for Neon HTTP adapter
+  // previewFeatures = ["clientExtensions"] // Deprecated: No longer needed for Neon HTTP adapter
   output          = "./generated/prisma"
 }
 
