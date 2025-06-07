@@ -16,7 +16,7 @@ export const useAdminStore = create((set, get) => ({
     try {
       set({isLoading: true});
       const res = await axiosInstance.get(
-        "http://localhost:8080/api/v1/stats/admin/growth"
+        "/stats/admin/growth"
       );
       set({
         analyticsData: {

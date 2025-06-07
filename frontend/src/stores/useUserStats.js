@@ -26,7 +26,7 @@ export const useUserStatsStore = create((set, get) => ({
     try {
       // console.log("Fetching user stats for userId:", userId);
       const res = await axiosInstance.get(
-        "http://localhost:8080/api/v1/stats/user/"
+        "/stats/user/"
       );
 
       if (res && res.data) {
@@ -59,7 +59,7 @@ export const useUserStatsStore = create((set, get) => ({
       set({isLoading: true});
 
       const res = await axiosInstance.get(
-        "http://localhost:8080/api/v1/stats/user/growth"
+        "/stats/user/growth"
       );
       set({
         analyticsData: {
