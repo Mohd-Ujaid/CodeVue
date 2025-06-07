@@ -19,6 +19,8 @@
   "type": "module",
   "description": "",
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "@prisma/adapter-neon": "^6.9.0",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
@@ -31,10 +33,10 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "@prisma/client": "^6.8.2",
+    "@prisma/client": "^6.9.0",
     "i": "^0.3.7",
     "npm": "^11.4.1",
     "prettier": "^3.5.3",
-    "prisma": "^6.8.2"
+    "prisma": "^6.9.0"
   }
 }
