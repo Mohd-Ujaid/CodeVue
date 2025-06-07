@@ -18,7 +18,7 @@ export const useStatsStore = create((set, get) => ({
     set({isLoading: true});
     try {
       const res = await axiosInstance.get(
-        "http://localhost:8080/api/v1/stats/"
+        "/stats/"
       );
 
       if (res && res.data) {

@@ -19,7 +19,7 @@ export const useExecutionStore = create(set => ({
       set({isExecuting: true});
 
       const res = await axiosInstance.post(
-        "http://localhost:8080/api/v1/execute-code",
+        "/execute-code",
         {
           source_code,
           language_id,
