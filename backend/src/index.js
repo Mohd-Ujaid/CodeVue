@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import serverless from "serverless-http";
+// import serverless from "serverless-http";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
@@ -56,4 +56,4 @@ app.listen(process.env.PORT, () => {
 });
 
 // export const handler = serverless(app);
-export default serverless(app);
+// export default serverless(app);
