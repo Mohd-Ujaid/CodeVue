@@ -1,7 +1,13 @@
+// generator client {
+//   provider      = "prisma-client-js"
+//   output        = "../src/generated/prisma"
+//   binaryTargets = ["native", "rhel-openssl-3.0.x", "windows"]
+// }
+
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../src/generated/prisma"
-  binaryTargets = ["native", "rhel-openssl-3.0.x", "windows"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"] // Needed for Neon HTTP adapter
+  output          = "./generated/prisma"
 }
 
 datasource db {
