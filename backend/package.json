@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "main": "src/index.js",
   "engines": {
-    "node":"24.x"
+    "node": ">=21.0.0"
   },
   "scripts": {
     "backend": "nodemon src/index.js",
