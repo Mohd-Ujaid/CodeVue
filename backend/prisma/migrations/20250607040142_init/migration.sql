@@ -1,2 +1,0 @@
--- CreateEnum
-CREATE TYPE "Status" AS ENUM ('ACCEPTED', 'WORNG_ANSWER');

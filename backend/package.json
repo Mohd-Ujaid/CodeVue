@@ -6,6 +6,8 @@
     "node": ">=21.0.0"
   },
   "scripts": {
+    "prisma": "prisma",
+    "postinstall": "prisma generate",
     "backend": "nodemon src/index.js",
     "start": "nodemon src/index.js",
     "dev": "vercel dev",
