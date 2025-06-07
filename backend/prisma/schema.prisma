@@ -64,10 +64,10 @@ model Problem {
   problemsPlaylists ProblemInPlaylist[]
 }
 
-// enum Status{
-//   ACCEPTED
-//   WORNG_ANSWER
-// }
+enum Status {
+  ACCEPTED
+  WORNG_ANSWER
+}
 
 model Submission {
   id            String     @id @default(uuid())
