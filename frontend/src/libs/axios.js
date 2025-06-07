@@ -4,6 +4,6 @@ export const axiosInstance = axios.create({
   baseURL:
     import.meta.env.MODE === "development"
       ? "http://localhost:8080/api/v1"
-      : "https://code-vue-backend.vercel.app/api/vi",
+      : "https://code-vue-backend.vercel.app/api/v1",
   withCredentials: true,
 });
