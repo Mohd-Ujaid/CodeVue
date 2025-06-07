@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "backend": "nodemon src/index.js",
+    "start": "nodemon src/index.js",
     "dev": "vercel dev",
     "build": "npx prisma generate",
     "debugg": "node --inspect src/index.js",
