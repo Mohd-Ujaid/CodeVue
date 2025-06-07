@@ -27,7 +27,6 @@ app.use(
     credentials: true,
   })
 );
-debugger;
 app.use(express.json());
 app.use(cookieParser());
 
@@ -56,4 +55,5 @@ app.use("/api/v1/stats", userStatsRoute);
 //   console.log(`server is running on port no.  ${process.env.PORT}`);
 // });
 
-export const handler = serverless(app);
+// export const handler = serverless(app);
+export default serverless(app);
