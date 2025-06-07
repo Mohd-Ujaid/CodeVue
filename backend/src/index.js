@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("Hello guys welcome to leetlab👍");
+  res.send("Hello guys welcome to codevue");
 });
 
 app.use("/api/v1/auth", authRoutes);
