@@ -8,6 +8,7 @@ generator client {
   provider        = "prisma-client-js"
   // previewFeatures = ["clientExtensions"] // Deprecated: No longer needed for Neon HTTP adapter
   output          = "./generated/prisma"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
