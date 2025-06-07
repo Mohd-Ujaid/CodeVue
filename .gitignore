@@ -9,5 +9,5 @@ build
 *.min.js
 *.test.js
 # Ignore logs from the code editor
-.vscode/
-.idea/
+.vscode
+.idea

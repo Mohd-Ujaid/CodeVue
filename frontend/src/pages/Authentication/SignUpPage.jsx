@@ -172,44 +172,44 @@ const SignUpPage = () => {
               </div>
 
               {/* Terms and Conditions */}
-              {/*<div className="space-y-2">*/}
-              {/*  <div className="flex items-start">*/}
-              {/*    <div className="flex items-center h-5">*/}
-              {/*      <input*/}
-              {/*        id="terms"*/}
-              {/*        type="checkbox"*/}
-              {/*        {...register("terms")}*/}
-              {/*        className="h-4 w-4 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]"*/}
-              {/*      />*/}
-              {/*    </div>*/}
-              {/*    <div className="ml-3 text-sm">*/}
-              {/*      <label*/}
-              {/*        htmlFor="terms"*/}
-              {/*        className="text-[var(--muted-foreground)]"*/}
-              {/*      >*/}
-              {/*        I agree to the{" "}*/}
-              {/*        <a*/}
-              {/*          href="#"*/}
-              {/*          className="text-[var(--primary)] hover:underline"*/}
-              {/*        >*/}
-              {/*          Terms of Service*/}
-              {/*        </a>{" "}*/}
-              {/*        and{" "}*/}
-              {/*        <a*/}
-              {/*          href="#"*/}
-              {/*          className="text-[var(--primary)] hover:underline"*/}
-              {/*        >*/}
-              {/*          Privacy Policy*/}
-              {/*        </a>*/}
-              {/*      </label>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*  {errors.terms && (*/}
-              {/*    <p className="text-[var(--destructive)] text-sm">*/}
-              {/*      {errors.terms.message}*/}
-              {/*    </p>*/}
-              {/*  )}*/}
-              {/*</div>*/}
+              <div className="space-y-2">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="terms"
+                      type="checkbox"
+                      {...register("terms")}
+                      className="h-4 w-4 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label
+                      htmlFor="terms"
+                      className="text-[var(--muted-foreground)]"
+                    >
+                      I agree to the{" "}
+                      <a
+                        href="#"
+                        className="text-[var(--primary)] hover:underline"
+                      >
+                        Terms of Service
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="#"
+                        className="text-[var(--primary)] hover:underline"
+                      >
+                        Privacy Policy
+                      </a>
+                    </label>
+                  </div>
+                </div>
+                {errors.terms && (
+                  <p className="text-[var(--destructive)] text-sm">
+                    {errors.terms.message}
+                  </p>
+                )}
+              </div>
 
               {/* Submit Button */}
               <Button
