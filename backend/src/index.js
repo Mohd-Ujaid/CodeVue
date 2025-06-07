@@ -23,7 +23,9 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:5175",
-      "code-vue-git-main-mohd-ujaids-projects.vercel.app/"
+      "code-vue-git-main-mohd-ujaids-projects.vercel.app/",
+      "https://code-vue-git-main-mohd-ujaids-projects.vercel.app/",
+      "https://code-vue-git-main-mohd-ujaids-projects.vercel.app"
     ],
     credentials: true,
   })
