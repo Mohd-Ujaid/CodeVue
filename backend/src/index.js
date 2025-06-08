@@ -26,9 +26,12 @@ app.use(
       "https://code-vue-git-main-mohd-ujaids-projects.vercel.app/",
       "https://code-vue-git-main-mohd-ujaids-projects.vercel.app",
       "https://www.codevue.tech/",
-      "https://www.codevue.tech"
+      "https://www.codevue.tech",
+      "www.codevue.tech",
+      "codevue.tech",
     ],
     credentials: true,
+    optionsSuccessStatus: 200 
   })
 );
 app.use(express.json());
