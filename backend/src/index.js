@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-// import serverless from "serverless-http";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
@@ -26,7 +25,8 @@ app.use(
       "code-vue-git-main-mohd-ujaids-projects.vercel.app/",
       "https://code-vue-git-main-mohd-ujaids-projects.vercel.app/",
       "https://code-vue-git-main-mohd-ujaids-projects.vercel.app",
-      "https://www.codevue.tech/"
+      "https://www.codevue.tech/",
+      "https://www.codevue.tech"
     ],
     credentials: true,
   })
@@ -53,11 +53,7 @@ app.use("/api/v1/discussion", discussionRoutes);
 app.use("/api/v1/interview", interviewRoutes);
 
 app.use("/api/v1/stats", userStatsRoute);
-// app.use("/api/v1/Admin", userStatsRoute)
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running on port no.  ${process.env.PORT}`);
 });
-
-// export const handler = serverless(app);
-// export default serverless(app);
