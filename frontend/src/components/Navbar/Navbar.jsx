@@ -36,7 +36,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <Link to="/" className="flex items-center gap-3 cursor-pointer group">
             <div className="h-10 w-10 bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] text-white border-none p-2 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg navbar-bounce navbar-glow">
-              <span className="text-xl font-extrabold tracking-widest bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">
+              <span className="text-xl font-extrabold tracking-widest bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text ">
                 CV
               </span>
             </div>

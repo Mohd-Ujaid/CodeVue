@@ -18,12 +18,15 @@ export const register = async (req, res) => {
         email,
       },
     });
+    console.log("existingUser" ,existingUser);
 
     if (existingUser) {
       return res.status(400).json({
-        error: "User already exists",
+        success: false,
+        message: "User already exist",
       });
     }
+    console.log("done");
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -60,7 +63,7 @@ export const register = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("Error creating user: ", error);
+    console.log("Error while creating user: ", error);
 
     res.status(500).json({
       error: "Error creating user",
