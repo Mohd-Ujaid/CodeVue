@@ -28,6 +28,7 @@ app.use(
       "https://www.codevue.tech/",
       "https://www.codevue.tech",
       "www.codevue.tech",
+      "https://codevue.tech",
       "codevue.tech",
     ],
     credentials: true,
