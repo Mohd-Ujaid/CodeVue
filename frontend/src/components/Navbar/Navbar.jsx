@@ -269,7 +269,7 @@ const Navbar = () => {
                   >
                     <ThemeToggle />
                   </div>
-                  <button
+                  <LogoutButton
                     className="flex items-center gap-2 text-[var(--foreground)] hover:text-[var(--destructive)] hover:bg-[var(--destructive)]/10 transition-all p-2 w-full rounded-lg navbar-link-anim"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
@@ -279,7 +279,7 @@ const Navbar = () => {
                   >
                     <LogOut className="w-5 h-5" />
                     Logout
-                  </button>
+                  </LogoutButton>
                 </>
               ) : (
                 <>
